@@ -6,9 +6,7 @@ from scapy.layers.inet import IP, TCP
 
 
 def check_port_range(host, start, end, **kwargs):
-    out = sr(IP(dst=host) / TCP(sport=RandShort(), dport=(start, end), flags="S"), **kwargs)[0].summary(lfilter = lambda s,r: "SA" in r.sprintf("%TCP.flags%"),prn=lambda s,r: r.sprintf("%TCP.sport%"))
-    if out:
-        print(out)
+    sr(IP(dst=host) / TCP(sport=RandShort(), dport=(start, end), flags="S"), **kwargs)[0].summary(lfilter = lambda s,r: "SA" in r.sprintf("%TCP.flags%"),prn=lambda s,r: r.sprintf("%TCP.sport%"))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="scapy scan tool",
