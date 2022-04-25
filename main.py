@@ -4,9 +4,8 @@ import argparse
 
 from scapy.layers.inet import IP, TCP
 
-
 def check_port_range(host, start, end, **kwargs):
-    sr(IP(dst=host) / TCP(sport=RandShort(), dport=(start, end), flags="S"), **kwargs)[0].summary(lfilter = lambda s,r: "SA" in r.sprintf("%TCP.flags%"),prn=lambda s,r: r.sprintf("%TCP.sport%"))
+    sr(IP(dst=host) / TCP(sport=RandShort(), dport=(start, end), flags="S"), **kwargs)[0].summary(lfilter = lambda s,r: "SA" in r.sprintf("%TCP.flags%"),prn=lambda s,r: r.sprintf("    %TCP.sport%"))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="scapy scan tool",
@@ -19,9 +18,9 @@ if __name__ == '__main__':
     parser.add_argument("-v", "--verbose", type=int, default=1,  help="verbosity level of scapy api")
     parser.add_argument("-c", "--chunk_size", type=int, default=150, help="chunk size of port ranges to be checked at once")
     args = parser.parse_args()
-    config = vars(args)
-    print(config)
-    #check_port_range_(args.host, int(args.start), int(args.end), int(args.timeout))
+
+    print(f"{args.host}[{args.start}-{args.end}]")
+
     end = args.start - 1
     while end < args.end:
         start = end + 1
